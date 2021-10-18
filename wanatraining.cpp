@@ -27,9 +27,21 @@ bool EnableVTMode()
     return true;
 }
 
+void calcTotalFee(int *arraystudentfee, int noofstudents){
+    int totalfees = 0;
+    set_color(MAGENTA, BG_DEFAULT);
+    cout << "\n\n===== Total Fees =====" << endl;
+    for (int i = 0; i < noofstudents; i++)
+    {
+        totalfees = totalfees + arraystudentfee[i];
+    }
+    cout<<"RM "<<totalfees;
+}
+
 void displayMonthFee(int *arraycoursecode, int noofstudents)
 {
     int studentfee;
+    int arraystudentfee[noofstudents];
     set_color(MAGENTA, BG_DEFAULT);
     cout << "\n\n===== Student Fees =====" << endl;
     for (int i = 0; i < noofstudents; i++)
@@ -37,22 +49,23 @@ void displayMonthFee(int *arraycoursecode, int noofstudents)
         set_color(BLUE, BG_DEFAULT);
         if (arraycoursecode[i] == 1)
         {
-            studentfee = 200;
+            arraystudentfee[i] = 200;
         }
         else if (arraycoursecode[i] == 2)
         {
-            studentfee = 150;
+            arraystudentfee[i] = 150;
         }
         else if (arraycoursecode[i] == 3)
         {
-            studentfee = 100;
+            arraystudentfee[i] = 100;
         }
         cout << "Student " << i + 1;
         set_color(WHITE, BG_DEFAULT);
         cout << " :";
         set_color(GREEN, BG_DEFAULT);
-        cout << " RM " << studentfee << endl;
+        cout << " RM " << arraystudentfee[i] << endl;
     }
+    calcTotalFee(arraystudentfee, noofstudents);
 }
 
 void setFee(int noofstudents)
@@ -190,7 +203,7 @@ int main()
     displayMonth(monthnumber);
     noofstudents = getNoOfStudent();
     setFee(noofstudents);
-    cout << "\nOK SETAKAT TU JE.. NNTI KITA BINCANG LAGI UNTUK SIAPKAN C++ APP NI SEPENUHNYA!" << endl;
     set_color(DEFAULT, BG_DEFAULT);
+    cout << "\nOK SETAKAT TU JE.. NNTI KITA BINCANG LAGI UNTUK SIAPKAN C++ APP NI SEPENUHNYA!" << endl;
     system("PAUSE");
 }
