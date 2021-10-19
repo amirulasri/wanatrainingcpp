@@ -3,6 +3,8 @@
 #include <windows.h>
 #include <rainbow.hpp>
 using namespace std;
+//GLOBAL VARIABLE
+int totalfees = 0;
 
 bool EnableVTMode()
 {
@@ -27,15 +29,47 @@ bool EnableVTMode()
     return true;
 }
 
+void displayNetTotal(double nettotal){
+    set_color(YELLOW, BG_DEFAULT);
+    cout << "===== NET TOTAL =====" << endl;
+    cout << "RM " << nettotal;
+}
+
+double netTotal(double totalfees, double staffactfee){
+    int result;
+    result = totalfees - staffactfee;
+    return result;
+}
+
+void displayStaffActFee(int staffactfee){
+    set_color(GREEN, BG_DEFAULT);
+    string resultfeestaff;
+    if(staffactfee > 0){
+        resultfeestaff = "Because the total fee more than RM2500, 10% (RM" + to_string(staffactfee) + ") will be deducted for staff activities.";
+    }else{
+        resultfeestaff = "Not charged";
+    }
+    cout << "===== Staff Activities Charges =====" << endl << resultfeestaff << "\n\n";
+
+}
+
+double feeActivity(int totalfees){
+    //DEDUCTED 10% IF MORE THAN 2500
+    int staffactfee = 0;
+    if(totalfees > 2500){
+        staffactfee = totalfees *0.1;
+    }
+    return staffactfee;
+}
+
 void calcTotalFee(int *arraystudentfee, int noofstudents){
-    int totalfees = 0;
     set_color(MAGENTA, BG_DEFAULT);
     cout << "\n\n===== Total Fees =====" << endl;
     for (int i = 0; i < noofstudents; i++)
     {
         totalfees = totalfees + arraystudentfee[i];
     }
-    cout<<"RM "<<totalfees;
+    cout<<"RM "<<totalfees << "\n\n";
 }
 
 void displayMonthFee(int *arraycoursecode, int noofstudents)
@@ -47,6 +81,7 @@ void displayMonthFee(int *arraycoursecode, int noofstudents)
     for (int i = 0; i < noofstudents; i++)
     {
         set_color(BLUE, BG_DEFAULT);
+        Sleep(300);
         if (arraycoursecode[i] == 1)
         {
             arraystudentfee[i] = 200;
@@ -72,8 +107,9 @@ void setFee(int noofstudents)
 {
     set_color(BLUE, BG_DEFAULT);
     int arraycoursecode[noofstudents];
-    cout << "Enter code for each students. Below are the course list with code:\n1. JAVA PROGRAMMING\n2. MS OFFICE (Word, Excel, Powerpoint)\n3. AUTOCAD\n0. CANCEL AND EXIT\n\n"
-         << endl;
+    cout << "Enter code for each students. Below are the course list with code and price:" << endl;
+    set_color(CYAN, BG_DEFAULT);
+    cout << "\n1. JAVA PROGRAMMING (RM 200)\n2. MS OFFICE (Word, Excel, Powerpoint) (RM 150)\n3. AUTOCAD (RM 100)\n0. CANCEL AND EXIT\n\n";
     //int *arrayfee = new int[noofstudents];
     for (int i = 0; i < noofstudents; i++)
     {
@@ -180,7 +216,7 @@ void displayMonth(int monthnumber)
         system("PAUSE");
         exit(EXIT_SUCCESS);
     }
-    cout << monthname << " selected";
+    cout << monthname << " selected" << endl;
 }
 
 int getMonth()
@@ -195,15 +231,38 @@ int main()
     EnableVTMode();
     int monthnumber;
     int noofstudents;
+    double staffactfee;
+    double nettotal;
+    set_color(YELLOW, BG_DEFAULT);
+    cout << "W     W    A    N    N    A      " << endl;
+    Sleep(500);
+    cout << "W  W  W   A A   N N  N   A A     " << endl;
+    Sleep(500);
+    cout << "W W W W  AAAAA  N  N N  AAAAA   ";
+    set_color(MAGENTA, BG_DEFAULT);
+    cout << "  Training" << endl;
+    Sleep(500);
+    set_color(YELLOW, BG_DEFAULT);
+    cout << "WW   WW A     A N    N A     A  ";
+    set_color(CYAN, BG_DEFAULT);
+    cout << "  Center" << endl;
+    Sleep(2000);
     set_color(BLUE, BG_DEFAULT);
-    cout << "Wana Training Center \n\nTo get started, enter month number (1 - 12): ";
+    cout << "Welcome!. To get started, enter month number (1 - 12): ";
     set_color(GREEN, BG_DEFAULT);
     monthnumber = getMonth();
     set_color(MAGENTA, BG_DEFAULT);
     displayMonth(monthnumber);
     noofstudents = getNoOfStudent();
     setFee(noofstudents);
+    staffactfee = feeActivity(totalfees);
+    Sleep(1000);
+    displayStaffActFee(staffactfee);
+    nettotal = netTotal(totalfees, staffactfee);
+    Sleep(1000);
+    displayNetTotal(nettotal);
     set_color(DEFAULT, BG_DEFAULT);
-    cout << "\nOK SETAKAT TU JE.. NNTI KITA BINCANG LAGI UNTUK SIAPKAN C++ APP NI SEPENUHNYA!" << endl;
+    Sleep(1000);
+    cout << "\n\nProgram ended" << endl;
     system("PAUSE");
 }
