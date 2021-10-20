@@ -4,7 +4,8 @@
 #include <rainbow.hpp>
 using namespace std;
 //GLOBAL VARIABLE
-int totalfees = 0;
+int noofstudents = 0;
+int *arraystudentfee;
 
 bool EnableVTMode()
 {
@@ -62,26 +63,32 @@ double feeActivity(int totalfees){
     return staffactfee;
 }
 
-void calcTotalFee(int *arraystudentfee, int noofstudents){
+void displayTotalFee(double totalfees){
     set_color(MAGENTA, BG_DEFAULT);
     cout << "\n\n===== Total Fees =====" << endl;
-    for (int i = 0; i < noofstudents; i++)
-    {
-        totalfees = totalfees + arraystudentfee[i];
-    }
     cout<<"RM "<<totalfees << "\n\n";
 }
 
-void displayMonthFee(int *arraycoursecode, int noofstudents)
+double calcTotalFee(int *arraystudentfee){
+    double result = 0;
+    for (int i = 0; i < noofstudents; i++)
+    {
+        result = result + arraystudentfee[i];
+    }
+    return result;
+}
+
+void displayMonthFee(int *arraycoursecode)
 {
     int studentfee;
-    int arraystudentfee[noofstudents];
+    arraystudentfee = new int[noofstudents];
     set_color(MAGENTA, BG_DEFAULT);
     cout << "\n\n===== Student Fees =====" << endl;
+    Sleep(1000);
     for (int i = 0; i < noofstudents; i++)
     {
         set_color(BLUE, BG_DEFAULT);
-        Sleep(300);
+        Sleep(200);
         if (arraycoursecode[i] == 1)
         {
             arraystudentfee[i] = 200;
@@ -100,13 +107,12 @@ void displayMonthFee(int *arraycoursecode, int noofstudents)
         set_color(GREEN, BG_DEFAULT);
         cout << " RM " << arraystudentfee[i] << endl;
     }
-    calcTotalFee(arraystudentfee, noofstudents);
 }
 
-void setFee(int noofstudents)
+int *setFee()
 {
     set_color(BLUE, BG_DEFAULT);
-    int arraycoursecode[noofstudents];
+    int *arraycoursecode = new int[noofstudents];
     cout << "Enter code for each students. Below are the course list with code and price:" << endl;
     set_color(CYAN, BG_DEFAULT);
     cout << "\n1. JAVA PROGRAMMING (RM 200)\n2. MS OFFICE (Word, Excel, Powerpoint) (RM 150)\n3. AUTOCAD (RM 100)\n0. CANCEL AND EXIT\n\n";
@@ -132,13 +138,13 @@ void setFee(int noofstudents)
             i = i - 1;
         }
     }
-    displayMonthFee(arraycoursecode, noofstudents);
+    return arraycoursecode;
 }
 
 int getNoOfStudent()
 {
     set_color(BLUE, BG_DEFAULT);
-    cout << "\nEnter number of students: ";
+    cout << "\nEnter number of students (At least 20 students): ";
     set_color(GREEN, BG_DEFAULT);
     int noofstudents;
     cin >> noofstudents;
@@ -230,9 +236,10 @@ int main()
 {
     EnableVTMode();
     int monthnumber;
-    int noofstudents;
+    int totalfees;
     double staffactfee;
     double nettotal;
+    int *arraycoursecode;
     set_color(YELLOW, BG_DEFAULT);
     cout << "W     W    A    N    N    A      " << endl;
     Sleep(500);
@@ -254,7 +261,10 @@ int main()
     set_color(MAGENTA, BG_DEFAULT);
     displayMonth(monthnumber);
     noofstudents = getNoOfStudent();
-    setFee(noofstudents);
+    arraycoursecode = setFee();
+    displayMonthFee(arraycoursecode);
+    totalfees = calcTotalFee(arraystudentfee);
+    displayTotalFee(totalfees);
     staffactfee = feeActivity(totalfees);
     Sleep(1000);
     displayStaffActFee(staffactfee);
@@ -263,6 +273,12 @@ int main()
     displayNetTotal(nettotal);
     set_color(DEFAULT, BG_DEFAULT);
     Sleep(1000);
-    cout << "\n\nProgram ended" << endl;
+    cout << "\n\nProgram ended. Want to try GUI application? (y/n): ";
+    char promptgui;
+    cin >> promptgui;
+    if(promptgui == 'y' || promptgui == 'Y'){
+        cout << "Opening GUI Application" << endl;
+        system ("start wanatraining.exe");
+    }
     system("PAUSE");
 }
