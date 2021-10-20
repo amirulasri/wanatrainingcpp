@@ -264,6 +264,7 @@ int main()
     arraycoursecode = setFee();
     displayMonthFee(arraycoursecode);
     totalfees = calcTotalFee(arraystudentfee);
+    Sleep(1000);
     displayTotalFee(totalfees);
     staffactfee = feeActivity(totalfees);
     Sleep(1000);
