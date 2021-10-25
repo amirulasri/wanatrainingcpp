@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <rainbow.hpp>
+/*
+NOTES:
+- PROGRAM DEVELOPED BY AMIRUL ASRI, FIRDAUS, AISYAH FROM SECTION 1 SWC1323 GROUP 2
+- RAINBOW.HPP NOT INCLUDE SO NEED TO INSTALL THE LIBRARY MANUALLY
+- BELOW HAVE SOME CODE FOR VIRTUAL TERMINAL PROCESSING TO ENABLE COLORED TEXT IN CLI APP
+*/
 using namespace std;
 //GLOBAL VARIABLE
 
@@ -28,6 +34,7 @@ bool EnableVTMode()
     return true;
 }
 
+// FUNCTION FOR DISPLAYING NET TOTAL AFTER CHARGE FOR STAFF ACTIVITY
 void displayNetTotal(double nettotal)
 {
     set_color(YELLOW, BG_DEFAULT);
@@ -35,6 +42,7 @@ void displayNetTotal(double nettotal)
     cout << "RM " << nettotal;
 }
 
+// CALCULATE NET TOTAL AFTER CHARGE FOR STAFF ACTIVITY
 double netTotal(double totalfees, double staffactfee)
 {
     int result;
@@ -42,6 +50,7 @@ double netTotal(double totalfees, double staffactfee)
     return result;
 }
 
+// DISPLAY HOW MANY CHARGE FOR STAFF ACTIVITY WILL BE DEDUCTED FROM TOTAL FEE
 void displayStaffActFee(int staffactfee)
 {
     set_color(CYAN, BG_DEFAULT);
@@ -58,6 +67,7 @@ void displayStaffActFee(int staffactfee)
          << resultfeestaff << "\n\n";
 }
 
+// CALCULATE CHARGE FOR STAFF ACTIVITY WILL BE DEDUCTED FROM TOTAL FEE
 double feeActivity(int totalfees)
 {
     //DEDUCTED 10% IF MORE THAN 2500
@@ -69,6 +79,7 @@ double feeActivity(int totalfees)
     return staffactfee;
 }
 
+// DISPLAY THE TOTAL FEE
 void displayTotalFee(double totalfees)
 {
     set_color(MAGENTA, BG_DEFAULT);
@@ -76,6 +87,7 @@ void displayTotalFee(double totalfees)
     cout << "RM " << totalfees << "\n\n";
 }
 
+// CALCULATE THE TOTAL FEE
 double calcTotalFee(int *arraystudentfee, int noofstudents)
 {
     double result = 0;
@@ -86,6 +98,7 @@ double calcTotalFee(int *arraystudentfee, int noofstudents)
     return result;
 }
 
+// DISPLAY EVERY STUDENT FEE USING FOR LOOP
 void displayMonthFee(int *arraystudentfee, int noofstudents)
 {
     set_color(CYAN, BG_DEFAULT);
@@ -103,6 +116,7 @@ void displayMonthFee(int *arraystudentfee, int noofstudents)
     }
 }
 
+// SET STUDENT FEE BASED ON COURSE CODE INPUT BY USER
 int *setFee(int noofstudents)
 {
     set_color(BLUE, BG_DEFAULT);
@@ -149,6 +163,7 @@ int *setFee(int noofstudents)
     return arraystudentfee;
 }
 
+// GET NUMBER OF STUDENT BEFORE PROCEED TO SET FEE
 int getNoOfStudent()
 {
     set_color(BLUE, BG_DEFAULT);
@@ -167,6 +182,7 @@ int getNoOfStudent()
     return noofstudents;
 }
 
+// DISPLAY THE MONTH BASED ON MONTH NUMBER INPUT BY USER
 void displayMonth(int monthnumber)
 {
     string monthname;
@@ -233,6 +249,7 @@ void displayMonth(int monthnumber)
     cout << monthname << " selected" << endl;
 }
 
+// GET THE MONTH NUMBER BEFORE PROCEED TO DISPLAY MONTH FUNCTION
 int getMonth()
 {
     int monthnumber;
@@ -240,15 +257,18 @@ int getMonth()
     return monthnumber;
 }
 
+// CALL ALL THE FUNCTION DEFINED BY DEVELOPER
 int main()
 {
     EnableVTMode();
+    //DECLARING VARIABLE
     int monthnumber;
     int totalfees;
     double staffactfee;
     double nettotal;
     int noofstudents = 0;
     int *arraystudentfee;
+    //DISPLAYING WELCOME TEXT and Wana Training center
     set_color(YELLOW, BG_DEFAULT);
     cout << "W     W    A    N    N    A      " << endl;
     Sleep(500);
@@ -266,6 +286,8 @@ int main()
     set_color(BLUE, BG_DEFAULT);
     cout << "Welcome!. To get started, enter month number (1 - 12): ";
     set_color(GREEN, BG_DEFAULT);
+
+    //GET ALL VALUE FROM THE FUNCTION CALLED AND DIPLAY ALL RESULT TO THE SCREEN
     monthnumber = getMonth();
     set_color(MAGENTA, BG_DEFAULT);
     displayMonth(monthnumber);
