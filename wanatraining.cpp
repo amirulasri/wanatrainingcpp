@@ -4,8 +4,6 @@
 #include <rainbow.hpp>
 using namespace std;
 //GLOBAL VARIABLE
-int noofstudents = 0;
-int *arraystudentfee;
 
 bool EnableVTMode()
 {
@@ -30,46 +28,56 @@ bool EnableVTMode()
     return true;
 }
 
-void displayNetTotal(double nettotal){
+void displayNetTotal(double nettotal)
+{
     set_color(YELLOW, BG_DEFAULT);
     cout << "===== NET TOTAL =====" << endl;
     cout << "RM " << nettotal;
 }
 
-double netTotal(double totalfees, double staffactfee){
+double netTotal(double totalfees, double staffactfee)
+{
     int result;
     result = totalfees - staffactfee;
     return result;
 }
 
-void displayStaffActFee(int staffactfee){
-    set_color(GREEN, BG_DEFAULT);
+void displayStaffActFee(int staffactfee)
+{
+    set_color(CYAN, BG_DEFAULT);
     string resultfeestaff;
-    if(staffactfee > 0){
+    if (staffactfee > 0)
+    {
         resultfeestaff = "Because the total fee more than RM2500, 10% (RM" + to_string(staffactfee) + ") will be deducted for staff activities.";
-    }else{
+    }
+    else
+    {
         resultfeestaff = "Not charged";
     }
-    cout << "===== Staff Activities Charges =====" << endl << resultfeestaff << "\n\n";
-
+    cout << "===== Staff Activities Charges =====" << endl
+         << resultfeestaff << "\n\n";
 }
 
-double feeActivity(int totalfees){
+double feeActivity(int totalfees)
+{
     //DEDUCTED 10% IF MORE THAN 2500
     int staffactfee = 0;
-    if(totalfees > 2500){
-        staffactfee = totalfees *0.1;
+    if (totalfees > 2500)
+    {
+        staffactfee = totalfees * 0.1;
     }
     return staffactfee;
 }
 
-void displayTotalFee(double totalfees){
+void displayTotalFee(double totalfees)
+{
     set_color(MAGENTA, BG_DEFAULT);
     cout << "\n\n===== Total Fees =====" << endl;
-    cout<<"RM "<<totalfees << "\n\n";
+    cout << "RM " << totalfees << "\n\n";
 }
 
-double calcTotalFee(int *arraystudentfee){
+double calcTotalFee(int *arraystudentfee, int noofstudents)
+{
     double result = 0;
     for (int i = 0; i < noofstudents; i++)
     {
@@ -78,29 +86,15 @@ double calcTotalFee(int *arraystudentfee){
     return result;
 }
 
-void displayMonthFee(int *arraycoursecode)
+void displayMonthFee(int *arraystudentfee, int noofstudents)
 {
-    int studentfee;
-    arraystudentfee = new int[noofstudents];
-    set_color(MAGENTA, BG_DEFAULT);
+    set_color(CYAN, BG_DEFAULT);
     cout << "\n\n===== Student Fees =====" << endl;
     Sleep(1000);
     for (int i = 0; i < noofstudents; i++)
     {
         set_color(BLUE, BG_DEFAULT);
         Sleep(200);
-        if (arraycoursecode[i] == 1)
-        {
-            arraystudentfee[i] = 200;
-        }
-        else if (arraycoursecode[i] == 2)
-        {
-            arraystudentfee[i] = 150;
-        }
-        else if (arraycoursecode[i] == 3)
-        {
-            arraystudentfee[i] = 100;
-        }
         cout << "Student " << i + 1;
         set_color(WHITE, BG_DEFAULT);
         cout << " :";
@@ -109,36 +103,50 @@ void displayMonthFee(int *arraycoursecode)
     }
 }
 
-int *setFee()
+int *setFee(int noofstudents)
 {
     set_color(BLUE, BG_DEFAULT);
-    int *arraycoursecode = new int[noofstudents];
+    int coursecodeinput;
+    int *arraystudentfee = new int[noofstudents];
     cout << "Enter code for each students. Below are the course list with code and price:" << endl;
     set_color(CYAN, BG_DEFAULT);
     cout << "\n1. JAVA PROGRAMMING (RM 200)\n2. MS OFFICE (Word, Excel, Powerpoint) (RM 150)\n3. AUTOCAD (RM 100)\n0. CANCEL AND EXIT\n\n";
-    //int *arrayfee = new int[noofstudents];
     for (int i = 0; i < noofstudents; i++)
     {
         set_color(YELLOW, BG_DEFAULT);
         cout << "Student " << i + 1 << ": ";
         set_color(WHITE, BG_DEFAULT);
-        cin >> arraycoursecode[i];
-        if ((arraycoursecode[i] != 1) && (arraycoursecode[i] != 2) && (arraycoursecode[i] != 3))
+        cin >> coursecodeinput;
+
+        if (coursecodeinput == 0)
         {
-            if ((arraycoursecode[i] == 0))
-            {
-                set_color(RED, BG_DEFAULT);
-                cout << "Cancelled by user!" << endl;
-                set_color(DEFAULT, BG_DEFAULT);
-                system("PAUSE");
-                exit(EXIT_SUCCESS);
-            }
+            set_color(RED, BG_DEFAULT);
+            cout << "Cancelled by user!" << endl;
+            set_color(DEFAULT, BG_DEFAULT);
+            system("PAUSE");
+            exit(EXIT_SUCCESS);
+        }
+        else if (coursecodeinput == 1)
+        {
+            arraystudentfee[i] = 200;
+        }
+        else if (coursecodeinput == 2)
+        {
+            arraystudentfee[i] = 150;
+        }
+        else if (coursecodeinput == 3)
+        {
+            arraystudentfee[i] = 100;
+        }
+        else
+        {
             set_color(RED, BG_DEFAULT);
             cout << "INVALID CODE OPTION! Try again or enter 0 if you want to cancel and exit!" << endl;
             i = i - 1;
         }
+
     }
-    return arraycoursecode;
+    return arraystudentfee;
 }
 
 int getNoOfStudent()
@@ -239,7 +247,8 @@ int main()
     int totalfees;
     double staffactfee;
     double nettotal;
-    int *arraycoursecode;
+    int noofstudents = 0;
+    int *arraystudentfee;
     set_color(YELLOW, BG_DEFAULT);
     cout << "W     W    A    N    N    A      " << endl;
     Sleep(500);
@@ -261,9 +270,9 @@ int main()
     set_color(MAGENTA, BG_DEFAULT);
     displayMonth(monthnumber);
     noofstudents = getNoOfStudent();
-    arraycoursecode = setFee();
-    displayMonthFee(arraycoursecode);
-    totalfees = calcTotalFee(arraystudentfee);
+    arraystudentfee = setFee(noofstudents);
+    displayMonthFee(arraystudentfee, noofstudents);
+    totalfees = calcTotalFee(arraystudentfee, noofstudents);
     Sleep(1000);
     displayTotalFee(totalfees);
     staffactfee = feeActivity(totalfees);
@@ -277,9 +286,18 @@ int main()
     cout << "\n\nProgram ended. Want to try GUI application? (y/n): ";
     char promptgui;
     cin >> promptgui;
-    if(promptgui == 'y' || promptgui == 'Y'){
+    if (promptgui == 'y' || promptgui == 'Y')
+    {
         cout << "Opening GUI Application" << endl;
-        system ("start wanatraining.exe");
+        system("start wanatraining.exe");
     }
-    system("PAUSE");
+    cout << "Application will closed after 5 second\nDeveloped by (Group 2): ";
+    set_color(YELLOW, BG_DEFAULT);
+    cout << "Amirul Asri, ";
+    set_color(CYAN, BG_DEFAULT);
+    cout << "Firdaus, ";
+    set_color(MAGENTA, BG_DEFAULT);
+    cout << "Aisyah";
+    set_color(DEFAULT, BG_DEFAULT);
+    Sleep(5000);
 }
