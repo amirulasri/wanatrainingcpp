@@ -190,10 +190,6 @@ void displayMonth(int monthnumber)
     {
         monthname = "January";
     }
-    if (monthnumber == 1)
-    {
-        monthname = "January";
-    }
     else if (monthnumber == 2)
     {
         monthname = "February";
