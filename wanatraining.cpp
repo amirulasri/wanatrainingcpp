@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <rainbow.hpp>
+#include <cstdlib>
 /*
 NOTES:
 - PROGRAM DEVELOPED BY AMIRUL ASRI, FIRDAUS, AISYAH FROM SECTION 1 SWC1323 GROUP 2
